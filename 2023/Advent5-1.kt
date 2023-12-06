@@ -25,13 +25,13 @@ class Mapping(
     }
 }
 
-fun get(what: String, current: Entity, mappings: Map<String, Mapping>): Long {
-    val mapping = mappings[current.name] ?: throw IllegalArgumentException()
-    val destinationId = mapping.getDestinationId(current.id)
+fun Map<String, Mapping>.get(what: String, from: Entity): Long {
+    val mapping = this[from.name] ?: throw IllegalArgumentException()
+    val destinationId = mapping.getDestinationId(from.id)
     return if (mapping.destination == what) {
         destinationId
     } else {
-        get(what, Entity(mapping.destination, destinationId), mappings)
+        get(what, from = Entity(mapping.destination, destinationId))
     }
 }
 
@@ -69,6 +69,6 @@ fun main(args: Array<String>) {
             }
         }
     }
-    val lowestLocation = seeds.minOfOrNull { get("location", it, mappings) }
+    val lowestLocation = seeds.minOfOrNull { mappings.get("location", from = it) }
     println("Lowest location is $lowestLocation")
 }
