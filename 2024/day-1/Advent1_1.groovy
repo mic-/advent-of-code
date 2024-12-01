@@ -7,14 +7,6 @@ static void main(String[] args) {
     return
   }
 
-  def input = new File(args[0]).readLines()
-  def lists = [[], []]
-  input.each {
-    def values = it.split().collect { it.toInteger() }
-    lists[0] += values[0]
-    lists[1] += values[1]
-  }
-  lists.each { it.sort() }
-
+  def lists = new File(args[0]).readLines().collect { it.split().collect { it.toInteger() } }.transpose().collect { it.sort() }
   print("Total distance between lists: " + lists[0].withIndex().collect { value, index -> Math.abs(lists[1][index] - value) }.sum())
 }

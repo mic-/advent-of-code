@@ -7,13 +7,6 @@ static void main(String[] args) {
         return
     }
 
-    def input = new File(args[0]).readLines()
-    def lists = [[], []]
-    input.each {
-        def values = it.split().collect { it.toInteger() }
-        lists[0] += values[0]
-        lists[1] += values[1]
-    }
-
-    print("Similarity score: " + lists[0].collect { value -> value*lists[1].count(value) }.sum())
+    def lists = new File(args[0]).readLines().collect { it.split() }.transpose()
+    print("Similarity score: " + lists[0].collect { value -> value.toInteger()*lists[1].count(value) }.sum())
 }
