@@ -9,14 +9,9 @@ function is_safe(levels)
     local sign = 0
     for i = 1,table.getn(levels)-1 do
         local delta = levels[i+1] - levels[i]
-        if math.abs(delta) < 1 or math.abs(delta) > 3 then
-            return false
-        end
+        if math.abs(delta) < 1 or math.abs(delta) > 3 then return false end
         local delta_sign = delta < 0 and -1 or 1
-        if delta_sign ~= sign and sign ~= 0 then
-            return false
-        end
-        if sign == 0 then sign = delta_sign end
+        if delta_sign == sign or sign == 0 then sign = delta_sign else return false end
     end
     return true
 end
